@@ -51,6 +51,16 @@ export const greetingReducer = (state = greetingState,
   }
 };
 
-
+const fetchGreetings = () => async (dispatch) => {
+  dispatch(fetchGreetingRequest());
+  const request = await fetch('http://localhost:3001/api/greetings');
+  try {
+    const greeting = await request.json();
+    dispatch(fetchGreetingSuccess(greeting.message));
+  } catch (error) {
+    const errorMsg = error.message;
+    dispatch(fetchGreetingFailure(errorMsg));
+  }
+};
 
 export default fetchGreetings;
